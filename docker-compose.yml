@@ -5,6 +5,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
+      - POSTGRES_DB=postgres
     restart: always             # run as a service
 
   odoo12:
