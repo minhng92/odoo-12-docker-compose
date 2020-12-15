@@ -10,7 +10,7 @@ $ curl -s https://raw.githubusercontent.com/minhng92/odoo-12-docker-compose/mast
 ```
 
 Some arguments:
-* First argument (**odoo-13-docker-compose**): destination folder
+* First argument (**odoo-12-docker-compose**): destination folder
 * Second argument (**10012**): Odoo port
 
 If `curl` is not found, install it:
