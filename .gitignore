@@ -1,0 +1,5 @@
+etc/odoo-server.log
+etc/addons
+etc/filestore
+etc/sessions
+
