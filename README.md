@@ -23,6 +23,7 @@ to set up another Odoo instance @ `localhost:11012` (default master password: `m
 Some arguments:
 * First argument (**odoo-one**): Odoo deploy folder
 * Second argument (**10012**): Odoo port
+* Third argument (**20012**): live chat port
 
 If `curl` is not found, install it:
 
