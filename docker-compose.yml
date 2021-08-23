@@ -2,7 +2,7 @@ version: '2'
 services:
   db:
     image: postgres:9.5
-    # container_name: postgres95
+    user: root
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
@@ -12,20 +12,24 @@ services:
       - ./postgresql:/var/lib/postgresql/data
 
   odoo12:
-    image: odoo:12.0
-    # container_name: odoo12
+    image: odoo:12
+    user: root
     depends_on:
       - db
     ports:
       - "10012:8069"
+      - "20012:8072" # live chat
     tty: true
-    command: -- --dev=reload
+    command: --
 #    command: odoo scaffold /mnt/extra-addons/test_module
     environment:
       - HOST=db
       - USER=odoo
       - PASSWORD=odoo
-    volumes:
-      - ./addons:/mnt/extra-addons
-      - ./etc:/etc/odoo
+      volumes:
+        #- /etc/timezone:/etc/timezone:ro
+        #- /etc/localtime:/etc/localtime:ro
+        # - ./entrypoint.sh:/entrypoint.sh   # if you want to install additional Python packages, uncomment this line!
+        - ./addons:/mnt/extra-addons
+        - ./etc:/etc/odoo
     restart: always             # run as a service

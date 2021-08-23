@@ -14,4 +14,4 @@ sed -i 's/10012/'$PORT'/g' $DESTINATION/docker-compose.yml
 # run Odoo
 docker-compose -f $DESTINATION/docker-compose.yml up -d
 
-echo "Started Odoo @ http://localhost:10012"
+echo 'Started Odoo @ http://localhost:'$PORT
