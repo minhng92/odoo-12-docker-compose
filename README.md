@@ -100,14 +100,6 @@ docker-compose restart
 docker-compose down
 ```
 
-# Remove Odoo & data
-
-Completely remove Odoo and all databases!
-
-``` sh
-sudo sh remove_odoo.sh
-```
-
 # Live chat
 
 In [docker-compose.yml#L21](docker-compose.yml#L21), we exposed port **20012** for live-chat on host.
