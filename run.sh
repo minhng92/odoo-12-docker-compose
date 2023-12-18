@@ -6,6 +6,7 @@ CHAT=$3
 git clone --depth=1 https://github.com/aguennoune/odoo-12 $DESTINATION
 rm -rf $DESTINATION/.git
 # set permission
+mkdir -p $DESTINATION/config
 mkdir -p $DESTINATION/pgdata
 sudo chmod -R 777 $DESTINATION
 # config
