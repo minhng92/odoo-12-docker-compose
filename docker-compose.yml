@@ -1,18 +1,26 @@
-version: '2'
+version: '3.1'
 services:
+  # docker run -d --name db -e POSTGRES_USER=odoo_user -e POSTGRES_PASSWORD=odoo -e POSTGRES_DB=db_dev -v ${PWD}/pgdata:/data -v ${PWD}/config:/config/ -p 5433:5432 postgres:14
   db:
-    image: postgres:9.5
+    container_name: db
+    image: postgres:14
     user: root
     environment:
       - POSTGRES_PASSWORD=odoo
-      - POSTGRES_USER=odoo
-      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo_user
+      - POSTGRES_DB=db_dev
+      - PGDATA=/data
+    ports:
+      - "5433:5432"
     restart: always             # run as a service
     volumes:
-      - ./postgresql:/var/lib/postgresql/data
+      - ./config:/config/
+      - ./pgdata:/data
 
-  odoo12:
-    image: odoo:12
+  # docker run -p 10012:8069 --name odoo --link db:db -t odoo:12.0
+  web:
+    container_name: odoo-12
+    image: odoo:12.0
     user: root
     depends_on:
       - db
@@ -20,16 +28,23 @@ services:
       - "10012:8069"
       - "20012:8072" # live chat
     tty: true
-    command: --
+    # command: --
+    command: >
+            odoo --db_host=db --db_user=odoo_user --db_password=odoo --db_port=5432 -d db_dev --http-interface=0.0.0.0 --http-port=8069 -i base
 #    command: odoo scaffold /mnt/extra-addons/test_module
     environment:
       - HOST=db
-      - USER=odoo
+      - USER=odoo_user
       - PASSWORD=odoo
+      - DATABASE=db_dev
     volumes:
       #- /etc/timezone:/etc/timezone:ro
       #- /etc/localtime:/etc/localtime:ro
       # - ./entrypoint.sh:/entrypoint.sh   # if you want to install additional Python packages, uncomment this line!
+      - odoo-web-data:/var/lib/odoo
       - ./addons:/mnt/extra-addons
-      - ./etc:/etc/odoo
+      - ./config:/etc/odoo
     restart: always             # run as a service
+
+volumes:
+  odoo-web-data:
